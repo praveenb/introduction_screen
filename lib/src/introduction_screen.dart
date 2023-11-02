@@ -479,7 +479,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
     bool forward,
   ) async {
     await Future.delayed(autoscrollDuration);
-    if (!_isSkipPressed && !_isScrolling) {
+    if (!_isSkipPressed && !_isScrolling&&_pageController.hasClients) {
       if (forward) {
         await _pageController.nextPage(
           duration: animationDuration,
