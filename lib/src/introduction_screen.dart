@@ -277,6 +277,9 @@ class IntroductionScreen extends StatefulWidget {
   /// ```
   final CanProgress canProgress;
 
+  /// Disable the Auto scroll
+  final bool disableAutoScroll;
+
   IntroductionScreen(
       {Key? key,
       this.pages,
@@ -335,7 +338,7 @@ class IntroductionScreen extends StatefulWidget {
       this.rtl = false,
       this.allowImplicitScrolling = false,
       this.canProgress = kDefaultCanProgressFunction,
-      this.safeAreaList = const [false, false, false, false]})
+      this.safeAreaList = const [false, false, false, false], this.disableAutoScroll = false})
       : assert(
           pages != null || rawPages != null,
           "You must set either 'pages' or 'rawPages' parameter",
@@ -449,7 +452,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
       final int pagesLength = getPagesLength() - 1;
       if (widget.infiniteAutoScroll) {
         while (true) {
-          if (!mounted) {
+          if (!mounted || widget.disableAutoScroll) {
             break;
           }
           await _movePage(
@@ -460,7 +463,7 @@ class IntroductionScreenState extends State<IntroductionScreen> {
         }
       } else {
         while (getCurrentPage() < pagesLength) {
-          if (!mounted) {
+          if (!mounted || widget.disableAutoScroll) {
             break;
           }
           await _movePage(
